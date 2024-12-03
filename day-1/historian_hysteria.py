@@ -22,3 +22,7 @@ with open("input.txt", "r") as file:
 
 print("Final Left List:", left_list)
 print("Final Right List:", right_list)
+
+# step two, sorting. We're sorting a list and checking it twice...
+
+
