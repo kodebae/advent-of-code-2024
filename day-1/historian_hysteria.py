@@ -1,49 +1,50 @@
 from collections import Counter
-# What is the total distance between your lists?
 
-# Step 1: 1 rite a script to parse the list and write it to a file.
-# Read from a file
-# Read from a file
-with open("input.txt", "r") as file:
+# Function to parse the input file
+def parse_file(filename):
     left_list = []
     right_list = []
-    for line in file:
-        line = line.strip()  # Remove extra whitespace
-        if not line:  # Skip empty lines
-            print("Skipping empty line.")
-            continue
-        try:
-            # Split by space and convert to integers
-            left, right = map(int, line.split())
-            print(f"Split results: Left = {left}, Right = {right}")  # Debugging
-            left_list.append(left)
-            right_list.append(right)
-        except ValueError as e:
-            print(f"Skipping line due to error: {line} - {e}")
+    with open("input.txt", "r") as file:
+        for line in file:
+            line = line.strip()
+            if not line:  # Skip empty lines
+                continue
+            try:
+                left, right = map(int, line.split())
+                left_list.append(left)
+                right_list.append(right)
+            except ValueError:
+                print(f"Skipping line: {line}")
+    return left_list, right_list
 
-print("Final Left List:", left_list)
-print("Final Right List:", right_list)
-
-# Step 2: Sorting. We're sorting a list and checking it twice...
-left_list.sort()  # Sorts the list in-place
-right_list.sort()  # Sorts the list in-place
-
-print("Sorted Left List:", left_list)
-print("Sorted Right List:", right_list)
-
-
-# Step 3: Pair and calculate the values with zip
-# left_list and right_list are sorted
-# Initialize the var to store total distance
-total_distance = 0
-
+# Function to calculate total distance (Part 1)
 # Iterate through both lists simultaneously using zip
-for left, right in zip(left_list, right_list):
-    # Calculate the absolute difference and add it to the total distance
-    total_distance += abs(left - right)
+def calculate_total_distance(left_list, right_list):
+    left_list.sort()
+    right_list.sort()
+    return sum(abs(left - right) for left, right in zip(left_list, right_list))
 
-# Print the total distance
-print("Total Distance:", total_distance)
+# Function to calculate similarity score (Part 2)
+def calculate_similarity_score(left_list, right_list):
+    right_counts = Counter(right_list)
+    similarity_score = 0
+    for number in left_list:
+        similarity_score += number * right_counts.get(number, 0)
+    return similarity_score
 
+# Main execution
+if __name__ == "__main__":
+    # Step 1: Parse input
+    left_list, right_list = parse_file("input.txt")
+
+    # Step 2: Calculate total distance
+    total_distance = calculate_total_distance(left_list, right_list)
+    print("Total Distance:", total_distance)
 # *********** spoiler ***********
-# Total Distance is: 1879048 
+# Total Distance is: 1879048 so far...
+
+    # Step 3: Calculate similarity score
+    similarity_score = calculate_similarity_score(left_list, right_list)
+    print("Similarity Score:", similarity_score)
+# *********** spoiler ***********   
+# The similarity score is 21024792
