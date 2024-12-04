@@ -24,5 +24,25 @@ print("Final Left List:", left_list)
 print("Final Right List:", right_list)
 
 # step two, sorting. We're sorting a list and checking it twice...
+left_list.sort()  # Sorts the list in-place
+right_list.sort()  # Sorts the list in-place
+
+print("Sorted Left List:", left_list)
+print("Sorted Right List:", right_list)
 
 
+# step 3 pair and calculate the values with zip
+# left_list and right_list are sorted
+# Initialize the var to store total distance
+total_distance = 0
+
+# Iterate through both lists simultaneously using zip
+for left, right in zip(left_list, right_list):
+    # Calculate the absolute difference and add it to the total distance
+    total_distance += abs(left - right)
+
+# Print the total distance
+print("Total Distance:", total_distance)
+
+# *********** spoiler ***********
+# Total Distance is: 1879048
